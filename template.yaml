@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  TransactionTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Transaction
+      AttributeDefinitions:
+        - AttributeName: transaction_id
+          AttributeType: S
+        - AttributeName: transaction_time
+          AttributeType: N
+      KeySchema:
+        - AttributeName: transaction_id
+          KeyType: HASH
+        - AttributeName: transaction_time
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+  TransactionLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: transaction_api.lambda_handler
+      Runtime: python3.12
+      Events:
+        ApiGateway:
+          Type: Api
+          Properties:
+            Path: /transaction
+            Method: POST
+      Role: !GetAtt LambdaRole.Arn
+
+  StatisticalClassifierLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 60
+      CodeUri: src/
+      Handler: statistical_classifier.lambda_handler
+      Runtime: python3.12
+      Events:
+        DynamoDBStream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt TransactionTable.StreamArn
+            StartingPosition: LATEST
+      Role: !GetAtt LambdaRole.Arn
+
+  ModelParametersBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: credit-card-fraud-detection-system-model-parameters
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: TransactionLambdaRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: TransactionLambdaPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - dynamodb:PutItem
+                  - dynamodb:GetRecords
+                  - dynamodb:GetShardIterator
+                  - dynamodb:DescribeStream
+                  - dynamodb:ListStreams
+                  - s3:GetObject
+                Resource: "*"
+
+Outputs:
+  ApiGatewayUrl:
+    Description: URL of the API Gateway
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/transaction"
