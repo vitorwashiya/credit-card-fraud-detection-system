@@ -3,10 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, World!</title>
+    <title>Credit Card Fraud Detection Project</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a basic HTML page displaying "Hello, World!"</p>
+    <div class="container">
+        <section id="header">
+            <img src="images/credit_card_fraud.jpeg" alt="Credit Card Fraud Detection">
+            <div class="overlay">
+                <h1>Credit Card Fraud Detection Project</h1>
+            </div>
+        </section>
+
+        <section id="problem">
+            <h2>Problem</h2>
+            <p>Credit card transaction fraud poses a significant threat to the financial industry, jeopardizing the security of both cardholders and financial institutions. This nefarious activity stems from various factors, including stolen card information, identity theft, and the illicit use of cards for unauthorized transactions. </p> <br>
+            <p>Addressing this pervasive issue necessitates the establishment of a systematic approach for real-time fraud detection. Leveraging machine learning algorithms and mathematical models, financial institutions can develop robust mechanisms to identify potentially fraudulent transactions by discerning patterns and anomalies within transactional data.</p> <br>
+            <p>Through meticulous analysis of transactional data and the deployment of sophisticated fraud detection algorithms, financial entities can effectively mitigate the risks associated with credit card fraud. Timely identification of fraudulent transactions not only helps avert financial losses but also safeguards cardholders against unauthorized charges, thereby fostering trust and confidence in the integrity of financial transactions.</p> <br>
+        </section>
+        <section id="dataset">
+            <h2>Dataset Description</h2>
+            <p>The dataset, available on <a href="https://www.kaggle.com/datasets/nelgiriyewithana/credit-card-fraud-detection-dataset-2023">Kaggle's Credit Card Fraud Detection Dataset</a>, provides an extensive record of credit card transactions made by European cardholders in the year 2023. Comprising over 550,000 entries, it offers a robust volume of transactional data for analysis. To safeguard the identities of cardholders, the dataset has undergone anonymization, ensuring the protection of sensitive personal information. Transactional attributes, anonymized as V1-V28, along with a binary label indicating the transaction's fraudulent nature (1 for fraudulent, 0 for non-fraudulent), form the core components of this dataset.</p> <br>
+            <p>Note: Please download the data from the provided source and ensure it is extracted into the designated 'data/' folder.</p>
+        </section>
+        <section id="objectives">
+            <h2>Objectives</h2>
+            <p>The primary objective of this GitHub repository is to develop and deploy a robust credit card transaction fraud detection system using AWS resources. The system is designed to read incoming transaction data through an API Gateway, store it on DynamoDB, and classify each transaction as either fraudulent or legitimate by a Lambda function. The repository aims to achieve the following objectives:</p>
+            <ul>
+                <li><strong>Develop a Scalable Fraud Detection System:</strong> Utilizing AWS services such as DynamoDB, Lambda functions, and S3 buckets, the repository aims to build a scalable and efficient fraud detection system capable of handling large volumes of transactional data.</li>
+                <li><strong>Real-Time Fraud Detection:</strong> The system will be designed to process incoming transactions in real-time, ensuring swift identification and classification of fraudulent activities as they occur.</li>
+                <li><strong>Utilize Statistical Modeling Techniques:</strong> The classification system will employ statistical modeling techniques to effectively classify incoming transactions. (The statistical model erroneously blocked 1.1% of legitimate transactions, while correctly identifying 90.8% of fraudulent transactions on the test set.)</li>
+                <li><strong>Optimize Resource Utilization:</strong> Through the use of serverless architecture, the system will optimize resource utilization by dynamically scaling resources based on demand, thereby minimizing operational costs.</li>
+                <li><strong>Provide Documentation and Guidelines:</strong> The repository will include comprehensive documentation and guidelines to facilitate easy setup, deployment, and customization of the fraud detection system. This will enable users to understand the system architecture and effectively utilize the provided resources.</li>
+            </ul>
+            <p>Overall, the GitHub repository endeavors to provide a reliable and scalable solution for credit card transaction fraud detection, empowering organizations to proactively mitigate risks and protect their financial assets and customers.</p>
+        </section>
+        <section id="solution">
+            <h2>Solution Architecture</h2>
+            <img src="images/fraud_detection_architecture.jpg" alt="Fraud Detection System Architecture">
+        </section>
+    </div>
 </body>
 </html>
